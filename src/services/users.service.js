@@ -2,7 +2,7 @@ import logger from '../config/logger.js';
 import { db } from '../config/database.js';
 import { users } from '../models/user.model.js';
 import { eq } from 'drizzle-orm';
-import { hashPass } from './auth.service.js';
+import { hashPassword } from './auth.service.js';
 
 export const getAllUsers = async () => {
   try {
@@ -58,7 +58,7 @@ export const updateUser = async (id, updates) => {
 
     // Hash password if it's being updated
     if (updateData.password) {
-      updateData.password = await hashPass(updateData.password);
+      updateData.password = await hashPassword(updateData.password);
     }
 
     // Add updated timestamp
