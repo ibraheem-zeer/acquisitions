@@ -95,7 +95,7 @@ export const deleteUser = async(id) => {
   try {
     // First check if user exists
     const existingUser = await getUserById(id);
-        
+    if(!existingUser) throw new Error('User already exist');
     const [deletedUser] = await db
       .delete(users)
       .where(eq(users.id, id))
