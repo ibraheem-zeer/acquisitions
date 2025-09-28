@@ -1,4 +1,4 @@
-import express from 'express'
+import express from 'express';
 import { fetchAllUsers, fetchUserById, updateUserById, deleteUserById } from '../controllers/users.controller.js';
 import { authenticate, requireSelfOrAdmin } from '../middleware/auth.middleware.js';
 
