@@ -5,11 +5,13 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 ## Common Development Commands
 
 ### Development Server
+
 ```bash
 npm run dev          # Start development server with auto-reload using Node.js --watch
 ```
 
 ### Database Operations
+
 ```bash
 npm run db:generate  # Generate Drizzle schema migrations
 npm run db:migrate   # Apply database migrations
@@ -17,6 +19,7 @@ npm run db:studio    # Open Drizzle Studio for database management
 ```
 
 ### Code Quality
+
 ```bash
 npm run lint         # Run ESLint to check code quality
 npm run lint:fix     # Run ESLint with automatic fixes
@@ -29,6 +32,7 @@ npm run format:check # Check if code is properly formatted
 This is a Node.js REST API built with Express.js following a layered architecture pattern:
 
 ### Core Technology Stack
+
 - **Framework**: Express.js v5 with ES modules
 - **Database**: PostgreSQL with Neon serverless driver
 - **ORM**: Drizzle ORM for type-safe database operations
@@ -57,7 +61,9 @@ src/
 ```
 
 ### Path Aliases
+
 The project uses Node.js import maps for clean imports:
+
 - `#config/*` → `./src/config/*`
 - `#controllers/*` → `./src/controllers/*`
 - `#middleware/*` → `./src/middleware/*`
@@ -68,6 +74,7 @@ The project uses Node.js import maps for clean imports:
 - `#validations/*` → `./src/validations/*`
 
 ### Data Flow Pattern
+
 1. **Routes** (`src/routes/`) define API endpoints
 2. **Controllers** (`src/controllers/`) handle HTTP requests/responses
 3. **Validations** (`src/validations/`) validate request data with Zod schemas
@@ -76,23 +83,27 @@ The project uses Node.js import maps for clean imports:
 6. **Utils** (`src/utils/`) provide shared functionality (JWT, cookies, formatting)
 
 ### Authentication System
+
 - JWT-based authentication with secure HTTP-only cookies
 - Password hashing with bcrypt (10 rounds)
 - Role-based access control (user/admin roles)
 - Cookie configuration varies by environment (secure in production)
 
 ### Database Layer
+
 - Uses Drizzle ORM with Neon PostgreSQL serverless driver
 - Schema migrations managed through `drizzle-kit`
 - Type-safe database operations with full TypeScript support
 
 ### Logging Strategy
+
 - Winston logger with structured JSON format
 - File-based logging: `logs/error.log` and `logs/combined.log`
 - Console logging in development with colorized output
 - Request logging via Morgan middleware integrated with Winston
 
 ### Code Standards
+
 - ES2022 modules with import/export syntax
 - ESLint configuration enforcing:
   - 2-space indentation with switch case indentation

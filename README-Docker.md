@@ -11,14 +11,16 @@ This guide explains how to run the Acquisitions application using Docker with di
 ## 🏗️ Architecture Overview
 
 ### Development Environment
+
 - **Database**: Neon Local proxy running in Docker
-- **Features**: 
+- **Features**:
   - Ephemeral database branches (auto-created/deleted)
   - Local development with cloud data
   - Hot reload support
   - Debug logging enabled
 
 ### Production Environment
+
 - **Database**: Direct connection to Neon Cloud
 - **Features**:
   - Optimized for performance
@@ -30,17 +32,20 @@ This guide explains how to run the Acquisitions application using Docker with di
 ### Development Setup
 
 1. **Clone and navigate to the project**
+
    ```bash
    git clone <your-repo>
    cd acquisitions
    ```
 
 2. **Configure environment variables**
+
    ```bash
    cp .env.development .env.development.local
    ```
-   
+
    Edit `.env.development.local` with your Neon credentials:
+
    ```env
    NEON_API_KEY=your_actual_neon_api_key
    NEON_PROJECT_ID=your_actual_project_id
@@ -48,6 +53,7 @@ This guide explains how to run the Acquisitions application using Docker with di
    ```
 
 3. **Start development environment**
+
    ```bash
    docker-compose -f docker-compose.dev.yml --env-file .env.development.local up --build
    ```
@@ -60,11 +66,13 @@ This guide explains how to run the Acquisitions application using Docker with di
 ### Production Setup
 
 1. **Configure production environment**
+
    ```bash
    cp .env.production .env.production.local
    ```
-   
+
    Edit `.env.production.local` with your production Neon URL:
+
    ```env
    DATABASE_URL=postgresql://username:password@your-endpoint.neon.tech/dbname?sslmode=require
    ARCJET_KEY=your_production_arcjet_key
@@ -92,22 +100,25 @@ acquisitions/
 ## 🔧 Environment Variables
 
 ### Development (.env.development)
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `NEON_API_KEY` | Your Neon API key | `neon_api_key_...` |
-| `NEON_PROJECT_ID` | Your Neon project ID | `project_id_123` |
-| `PARENT_BRANCH_ID` | Parent branch for ephemeral branches | `br_main_456` |
-| `DATABASE_URL` | Local connection to Neon proxy | `postgres://neon:npg@neon-local:5432/neondb` |
+
+| Variable           | Description                          | Example                                      |
+| ------------------ | ------------------------------------ | -------------------------------------------- |
+| `NEON_API_KEY`     | Your Neon API key                    | `neon_api_key_...`                           |
+| `NEON_PROJECT_ID`  | Your Neon project ID                 | `project_id_123`                             |
+| `PARENT_BRANCH_ID` | Parent branch for ephemeral branches | `br_main_456`                                |
+| `DATABASE_URL`     | Local connection to Neon proxy       | `postgres://neon:npg@neon-local:5432/neondb` |
 
 ### Production (.env.production)
-| Variable | Description | Example |
-|----------|-------------|---------|
+
+| Variable       | Description                  | Example                                      |
+| -------------- | ---------------------------- | -------------------------------------------- |
 | `DATABASE_URL` | Direct Neon Cloud connection | `postgresql://user:pass@ep-....neon.tech/db` |
-| `ARCJET_KEY` | Production Arcjet key | `ajkey_prod_...` |
+| `ARCJET_KEY`   | Production Arcjet key        | `ajkey_prod_...`                             |
 
 ## 🔍 Docker Services
 
 ### Development Services
+
 - **neon-local**: Neon Local proxy container
   - Creates ephemeral database branches
   - Provides local Postgres interface
@@ -118,6 +129,7 @@ acquisitions/
   - Connected to neon-local service
 
 ### Production Services
+
 - **app**: Optimized application container
   - Resource limits (512MB RAM, 1 CPU)
   - Read-only filesystem
@@ -127,6 +139,7 @@ acquisitions/
 ## 📝 Available Commands
 
 ### Development
+
 ```bash
 # Start development environment
 docker-compose -f docker-compose.dev.yml up
@@ -148,6 +161,7 @@ docker-compose -f docker-compose.dev.yml down
 ```
 
 ### Production
+
 ```bash
 # Deploy production
 docker-compose -f docker-compose.prod.yml up -d
@@ -163,6 +177,7 @@ docker-compose -f docker-compose.prod.yml logs -f app
 ```
 
 ### Database Operations
+
 ```bash
 # Run database migrations (development)
 docker-compose -f docker-compose.dev.yml exec app npm run db:migrate
@@ -177,11 +192,13 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 ## 🔐 Security Considerations
 
 ### Development
+
 - Uses ephemeral branches (data is temporary)
 - Debug logging enabled
 - Source code mounted for hot reload
 
 ### Production
+
 - Read-only filesystem
 - Non-root user execution
 - Resource limits enforced
@@ -191,6 +208,7 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 ## 🧪 Testing the Setup
 
 ### Health Checks
+
 ```bash
 # Test application health
 curl http://localhost:3000/health
@@ -203,6 +221,7 @@ docker-compose logs app | grep -i database
 ```
 
 ### Database Connection Testing
+
 ```bash
 # Connect to Neon Local (development)
 psql "postgres://neon:npg@localhost:5432/neondb?sslmode=require"
@@ -220,22 +239,24 @@ console.log('Database version:', result[0]);
 ### Common Issues
 
 1. **Neon Local Connection Failed**
+
    ```bash
    # Check if Neon Local is healthy
    docker-compose ps
-   
+
    # View Neon Local logs
    docker-compose logs neon-local
-   
+
    # Verify environment variables
    docker-compose config
    ```
 
 2. **Application Won't Start**
+
    ```bash
    # Check application logs
    docker-compose logs app
-   
+
    # Verify database connection
    docker-compose exec app npm run db:generate
    ```
@@ -249,11 +270,13 @@ console.log('Database version:', result[0]);
    ```
 
 ### Environment Issues
+
 - Ensure `.env.development.local` has correct Neon credentials
 - Verify `PARENT_BRANCH_ID` exists in your Neon project
 - Check that `NEON_API_KEY` has sufficient permissions
 
 ### Performance Issues
+
 - Monitor container resources: `docker stats`
 - Check database query performance in Neon Console
 - Review application logs for slow queries
@@ -268,6 +291,7 @@ console.log('Database version:', result[0]);
 ## 🤝 Contributing
 
 When contributing:
+
 1. Test both development and production setups
 2. Update environment variable documentation
 3. Verify Docker builds are optimized
